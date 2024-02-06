@@ -6,8 +6,7 @@
     <data>
         <instance id="planinDc"
                   class="com.company.storage.entity.planin.Planin">
-            <view extends="_local">
-                <property name="clients" view="_minimal"/>
+            <view extends="planin-view">
             </view>
             <loader/>
             <collection id="clientsDc" property="clients"/>

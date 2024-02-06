@@ -1,5 +1,6 @@
 package com.company.storage.entity.client;
 
+import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Table;
 
 @Table(name = "STORAGE_CLIENT")
 @Entity(name = "storage_Client")
+@NamePattern("%s|clientCode")
 public class Client extends StandardEntity {
     private static final long serialVersionUID = -4084315723629422931L;
 

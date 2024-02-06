@@ -31,6 +31,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+                <action id="excel" type="excel"/>
             </actions>
             <columns>
                 <column id="gateNumber"/>
@@ -43,6 +44,7 @@
                 <button id="createBtn" action="gatesTable.create"/>
                 <button id="editBtn" action="gatesTable.edit"/>
                 <button id="removeBtn" action="gatesTable.remove"/>
+                <button id="excelBtn" action="gatesTable.excel"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

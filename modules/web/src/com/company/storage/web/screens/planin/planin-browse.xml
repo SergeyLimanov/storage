@@ -2,7 +2,7 @@
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://planinBrowse.caption"
-        focusComponent="planinsTable"
+        focusComponent="tabSheet"
         messagesPack="com.company.storage.web.screens.planin">
     <data readOnly="true">
         <collection id="planinsDc"
@@ -13,51 +13,125 @@
             <loader id="planinsDl">
                 <query>
                     <![CDATA[select e from storage_Planin e]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>e.planinStatus = :planinStatus or e.planinStatus = :planinStatus2</c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+        <collection id="planinsDc2"
+                    class="com.company.storage.entity.planin.Planin">
+            <view extends="_local">
+                <property name="clients" view="_minimal"/>
+            </view>
+            <loader id="planinsDl2">
+                <query>
+                    <![CDATA[select e from storage_Planin e]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>e.planinStatus = :planinStatus3 or e.planinState = :planinStatus4</c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
                 </query>
             </loader>
         </collection>
     </data>
+
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="planinsTable"
-            spacing="true">
-        <filter id="filter"
-                applyTo="planinsTable"
-                dataLoader="planinsDl">
-            <properties include=".*"/>
-        </filter>
-        <groupTable id="planinsTable"
-                    width="100%"
-                    dataContainer="planinsDc">
-            <actions>
-                <action id="create" type="create"/>
-                <action id="edit" type="edit"/>
-                <action id="remove" type="remove"/>
-            </actions>
-            <columns>
-                <column id="regNumber"/>
-                <column id="gate"/>
-                <column id="regDate"/>
-                <column id="dateInstallationGate"/>
-                <column id="dateLeaveAllowed"/>
-                <column id="leaveDate"/>
-                <column id="orderNumber"/>
-                <column id="planningDate"/>
-                <column id="tsNumber"/>
-                <column id="loadCapacity"/>
-                <column id="fio"/>
-                <column id="phoneNumber"/>
-                <column id="planinStatus"/>
-                <column id="planinState"/>
-            </columns>
-            <rowsCount/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
-                <button id="createBtn" action="planinsTable.create"/>
-                <button id="editBtn" action="planinsTable.edit"/>
-                <button id="removeBtn" action="planinsTable.remove"/>
-            </buttonsPanel>
-        </groupTable>
+    <facets>
+        <timer id="timer"
+               autostart="false"
+               delay="15000"/>
+    </facets>
+    <layout expand="tabSheet">
+        <tabSheet id="tabSheet">
+            <tab id="planning" caption="Запланированы">
+                <vbox spacing="true" margin="true">
+                <filter id="filter"
+                        applyTo="planinsTable"
+                        dataLoader="planinsDl">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="planinsTable"
+                            width="100%"
+                            dataContainer="planinsDc">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="regNumber"/> 1
+                        <column id="orderNumber"/>
+                        <column id="tsNumber"/>
+                        <column id="loadCapacity"/>
+                        <column id="fio"/>
+                        <column id="phoneNumber"/>
+                        <column id="planningDate"/>
+                        <column id="planinStatus"/>
+                        <column id="planinState"/>
+                        <column id="clients"/>
+                    </columns>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn" action="planinsTable.create"/>
+                        <button id="editBtn" action="planinsTable.edit"/>
+                        <button id="removeBtn" action="planinsTable.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+                </vbox>
+            </tab>
+            <tab id="atGate" caption="На воротах">
+                <vbox spacing="true" margin="true">
+                <filter id="filter2"
+                        applyTo="planinsTable2"
+                        dataLoader="planinsDl2">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="planinsTable2"
+                            width="100%"
+                            dataContainer="planinsDc2">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="regNumber"/>
+                        <column id="gate"/>
+                        <column id="regDate"/>
+                        <column id="dateInstallationGate"/>
+                        <column id="dateLeaveAllowed"/>
+                        <column id="leaveDate"/>
+                        <column id="orderNumber"/>
+                        <column id="planningDate"/>
+                        <column id="tsNumber"/>
+                        <column id="loadCapacity"/>
+                        <column id="fio"/>
+                        <column id="phoneNumber"/>
+                        <column id="planinStatus"/>
+                        <column id="planinState"/>
+                    </columns>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel2"
+                                  alwaysVisible="true">
+                        <button id="createBtn2" action="planinsTable.create"/>
+                        <button id="editBtn2" action="planinsTable.edit"/>
+                        <button id="removeBtn2" action="planinsTable.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+                </vbox>
+            </tab>
+        </tabSheet>
+
         <hbox id="lookupActions" spacing="true" visible="false">
             <button action="lookupSelectAction"/>
             <button action="lookupCancelAction"/>

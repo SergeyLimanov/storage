@@ -31,6 +31,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+                <action id="excel" type="excel"/>
             </actions>
             <columns>
                 <column id="clientCode"/>
@@ -44,6 +45,7 @@
                 <button id="createBtn" action="clientsTable.create"/>
                 <button id="editBtn" action="clientsTable.edit"/>
                 <button id="removeBtn" action="clientsTable.remove"/>
+                <button id="excelBtn" action="clientsTable.excel"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

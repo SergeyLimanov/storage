@@ -3,6 +3,5 @@
         caption="msg://dispetcherScreen.caption"
         messagesPack="com.company.storage.web.screens">
     <layout>
-
     </layout>
 </window>

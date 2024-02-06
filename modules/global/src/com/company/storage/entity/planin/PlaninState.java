@@ -9,7 +9,8 @@ public enum PlaninState implements EnumClass<Integer> {
 
     WAIT_GATE(5),
     AT_GATE(20),
-    EXIT_ALLOWED(50);
+    EXIT_ALLOWED(50),
+    GATE_ASSIGNED(60);
 
     private Integer id;
 

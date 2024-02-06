@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
 
+    <view entity="storage_Planin" name="planin-view" extends="_local">
+        <property name="clients" view="_minimal">
+            <property name="clientCode"/>
+            <property name="descriptionName"/>
+            <property name="address"/>
+            <property name="contactPerson"/>
+        </property>
+    </view>
 </views>
