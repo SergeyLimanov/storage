@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://planinEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.storage.web.screens.planin">
+    <data>
+        <instance id="planinDc"
+                  class="com.company.storage.entity.planin.Planin">
+            <view extends="_local">
+                <property name="clients" view="_minimal"/>
+            </view>
+            <loader/>
+            <collection id="clientsDc" property="clients"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox" spacing="true">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="planinDc">
+                <column width="350px">
+                    <textField id="regNumberField" property="regNumber"/>
+                    <textField id="gateField" property="gate"/>
+                    <dateField id="regDateField" property="regDate"/>
+                    <dateField id="dateInstallationGateField" property="dateInstallationGate"/>
+                    <dateField id="dateLeaveAllowedField" property="dateLeaveAllowed"/>
+                    <dateField id="leaveDateField" property="leaveDate"/>
+                    <textField id="orderNumberField" property="orderNumber"/>
+                    <dateField id="planningDateField" property="planningDate"/>
+                    <textField id="tsNumberField" property="tsNumber"/>
+                    <lookupField id="loadCapacityField" property="loadCapacity"/>
+                    <textField id="fioField" property="fio"/>
+                    <textField id="phoneNumberField" property="phoneNumber"/>
+                    <lookupField id="planinStatusField" property="planinStatus"/>
+                    <lookupField id="planinStateField" property="planinState"/>
+                </column>
+            </form>
+            <groupBox id="clientsBox" caption="msg://com.company.storage.entity.planin/Planin.clients">
+                <table id="clientsTable" dataContainer="clientsDc" width="100%" height="200px">
+                    <actions>
+                        <action id="add" type="add"/>
+                        <action id="exclude" type="exclude"/>
+                    </actions>
+                    <columns>
+                    </columns>
+                    <buttonsPanel>
+                        <button action="clientsTable.add"/>
+                        <button action="clientsTable.exclude"/>
+                    </buttonsPanel>
+                </table>
+            </groupBox>
+        </scrollBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
