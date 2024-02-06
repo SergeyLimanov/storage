@@ -1,18 +1,34 @@
 package com.company.storage.web.screens.planin;
 
+import com.company.storage.entity.gate.Gate;
 import com.company.storage.entity.planin.Planin;
 import com.company.storage.entity.planin.PlaninState;
 import com.company.storage.entity.planin.PlaninStatus;
+import com.company.storage.web.screens.gate.GateBrowse;
+import com.company.storage.web.screens.registration.RegistrationWindow;
+import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.ScreenBuilders;
+import com.haulmont.cuba.gui.Screens;
+import com.haulmont.cuba.gui.UiComponents;
+import com.haulmont.cuba.gui.components.GroupTable;
+import com.haulmont.cuba.gui.components.Label;
 import com.haulmont.cuba.gui.components.TabSheet;
 import com.haulmont.cuba.gui.components.Timer;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @UiController("storage_Planin.browse")
 @UiDescriptor("planin-browse.xml")
@@ -33,6 +49,20 @@ public class PlaninBrowse extends StandardLookup<Planin> {
     private CollectionContainer<Planin> planinsDc;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private GroupTable<Planin> planinsTable;
+    @Inject
+    private GroupTable<Planin> planinsTable2;
+    @Inject
+    private Notifications notifications;
+    @Inject
+    private Screens screens;
+    @Inject
+    protected DataContext dataContext;
+    @Inject
+    private ScreenBuilders screenBuilders;
+    @Inject
+    private UiComponents uiComponents;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -45,6 +75,15 @@ public class PlaninBrowse extends StandardLookup<Planin> {
             } else {
                 loadAtGate();
             }
+        });
+    }
+
+    @Subscribe(id = "planinsDl2", target = Target.DATA_LOADER)
+    public void onSettlementsDlPostLoad(CollectionLoader.PostLoadEvent<Planin> event) {
+        planinsTable2.addGeneratedColumn("Время на воротах", entity -> {
+            Label<String> label = uiComponents.create(Label.NAME);
+            label.setValue(String.valueOf(entity.getDateInstallationGate() != null ? Duration.between(entity.getDateInstallationGate(), LocalDateTime.now()).toHours() : ""));
+            return label;
         });
     }
 
@@ -63,7 +102,6 @@ public class PlaninBrowse extends StandardLookup<Planin> {
         planinsDl.setParameters(byDepParams);
         planinsDl.load();
     }
-
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
@@ -88,4 +126,52 @@ public class PlaninBrowse extends StandardLookup<Planin> {
         planinsDl2.load();
     }
 
+    public void registered() {
+        RegistrationWindow build = screenBuilders.screen(this).withScreenClass(RegistrationWindow.class).withLaunchMode(OpenMode.DIALOG).build();
+        build.addAfterCloseListener(e -> loadPlanning());
+        build.show();
+    }
+
+    public void assigneeGate() {
+        Planin selected = planinsTable.getSingleSelected();
+        if (selected == null) {
+            notifications.create().withCaption("Ни один элемент не выбран.").show();
+            return;
+        }
+        if (selected.getPlaninStatus() == null || !PlaninStatus.REGISTERED.equals(selected.getPlaninStatus())) {
+            notifications.create().withCaption("Ворота не могут быть назначены").show();
+            return;
+        }
+        if (PlaninStatus.REGISTERED.equals(selected.getPlaninStatus())) {
+            List<String> gateNumbers = dataManager.load(Planin.class).view("planin-view").list().stream().map(Planin::getGate).filter(Objects::nonNull).collect(Collectors.toList());
+            MapScreenOptions map = new MapScreenOptions(ParamsMap.of("selected", gateNumbers));
+            GateBrowse build = (GateBrowse) screenBuilders.lookup(Gate.class, this)
+                    .withSelectHandler(handler -> {
+                        Gate gate = handler.stream().findFirst().get();
+                        selected.setGate(gate.getGateNumber());
+                        selected.setPlaninStatus(PlaninStatus.AT_GATE);
+                        selected.setPlaninState(PlaninState.GATE_ASSIGNED);
+                        selected.setDateInstallationGate(LocalDateTime.now());
+                        dataManager.commit(selected);
+                        loadPlanning();
+                        loadAtGate();
+                    })
+                    .withOptions(map)
+                    .build();
+            build.show();
+        }
+    }
+
+    public void downloadCompeted() {
+        Planin selected = planinsTable2.getSingleSelected();
+        if (selected == null) {
+            notifications.create().withCaption("Ни один элемент не выбран.").show();
+            return;
+        }
+        selected.setPlaninStatus(PlaninStatus.EXIT_ALLOWED);
+        selected.setPlaninState(PlaninState.EXIT_ALLOWED);
+        selected.setGate("PARKINGEXIT".substring(0, 5));
+        dataManager.commit(selected);
+        loadAtGate();
+    }
 }

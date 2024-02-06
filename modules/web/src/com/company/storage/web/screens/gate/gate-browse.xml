@@ -11,6 +11,13 @@
             <loader id="gatesDl">
                 <query>
                     <![CDATA[select e from storage_Gate e]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>e.gateNumber NOT IN :selected</c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
                 </query>
             </loader>
         </collection>

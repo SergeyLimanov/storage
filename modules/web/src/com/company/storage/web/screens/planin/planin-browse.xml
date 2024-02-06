@@ -54,80 +54,81 @@
         <tabSheet id="tabSheet">
             <tab id="planning" caption="Запланированы">
                 <vbox spacing="true" margin="true">
-                <filter id="filter"
-                        applyTo="planinsTable"
-                        dataLoader="planinsDl">
-                    <properties include=".*"/>
-                </filter>
-                <groupTable id="planinsTable"
-                            width="100%"
-                            dataContainer="planinsDc">
-                    <actions>
-                        <action id="create" type="create"/>
-                        <action id="edit" type="edit"/>
-                        <action id="remove" type="remove"/>
-                    </actions>
-                    <columns>
-                        <column id="regNumber"/> 1
-                        <column id="orderNumber"/>
-                        <column id="tsNumber"/>
-                        <column id="loadCapacity"/>
-                        <column id="fio"/>
-                        <column id="phoneNumber"/>
-                        <column id="planningDate"/>
-                        <column id="planinStatus"/>
-                        <column id="planinState"/>
-                        <column id="clients"/>
-                    </columns>
-                    <rowsCount/>
-                    <buttonsPanel id="buttonsPanel"
-                                  alwaysVisible="true">
-                        <button id="createBtn" action="planinsTable.create"/>
-                        <button id="editBtn" action="planinsTable.edit"/>
-                        <button id="removeBtn" action="planinsTable.remove"/>
-                    </buttonsPanel>
-                </groupTable>
+                    <filter id="filter"
+                            applyTo="planinsTable"
+                            dataLoader="planinsDl">
+                        <properties include="(regNumber) | tsNumber"/>
+                    </filter>
+                    <groupTable id="planinsTable"
+                                width="100%"
+                                dataContainer="planinsDc">
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                        <columns>
+                            <column id="regNumber"/>
+                            1
+                            <column id="orderNumber"/>
+                            <column id="tsNumber"/>
+                            <column id="loadCapacity"/>
+                            <column id="fio"/>
+                            <column id="phoneNumber"/>
+                            <column id="planningDate"/>
+                            <column id="planinStatus"/>
+                            <column id="planinState"/>
+                            <column id="clients"/>
+                        </columns>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPanel"
+                                      alwaysVisible="true">
+                            <button id="createBtn" action="planinsTable.create"/>
+                            <button id="editBtn" action="planinsTable.edit"/>
+                            <button id="removeBtn" action="planinsTable.remove"/>
+                            <button id="registredBtn" invoke="registered" caption="Зарегистрировано"/>
+                            <button icon="assigneeGateBtn" invoke="assigneeGate" caption="Назначить ворота"/>
+                        </buttonsPanel>
+                    </groupTable>
                 </vbox>
             </tab>
             <tab id="atGate" caption="На воротах">
                 <vbox spacing="true" margin="true">
-                <filter id="filter2"
-                        applyTo="planinsTable2"
-                        dataLoader="planinsDl2">
-                    <properties include=".*"/>
-                </filter>
-                <groupTable id="planinsTable2"
-                            width="100%"
-                            dataContainer="planinsDc2">
-                    <actions>
-                        <action id="create" type="create"/>
-                        <action id="edit" type="edit"/>
-                        <action id="remove" type="remove"/>
-                    </actions>
-                    <columns>
-                        <column id="regNumber"/>
-                        <column id="gate"/>
-                        <column id="regDate"/>
-                        <column id="dateInstallationGate"/>
-                        <column id="dateLeaveAllowed"/>
-                        <column id="leaveDate"/>
-                        <column id="orderNumber"/>
-                        <column id="planningDate"/>
-                        <column id="tsNumber"/>
-                        <column id="loadCapacity"/>
-                        <column id="fio"/>
-                        <column id="phoneNumber"/>
-                        <column id="planinStatus"/>
-                        <column id="planinState"/>
-                    </columns>
-                    <rowsCount/>
-                    <buttonsPanel id="buttonsPanel2"
-                                  alwaysVisible="true">
-                        <button id="createBtn2" action="planinsTable.create"/>
-                        <button id="editBtn2" action="planinsTable.edit"/>
-                        <button id="removeBtn2" action="planinsTable.remove"/>
-                    </buttonsPanel>
-                </groupTable>
+                    <filter id="filter2"
+                            applyTo="planinsTable2"
+                            dataLoader="planinsDl2">
+                        <properties include="(regNumber) | tsNumber"/>
+                    </filter>
+                    <groupTable id="planinsTable2"
+                                width="100%"
+                                dataContainer="planinsDc2">
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                        <columns>
+                            <column id="gate"/>
+                            <column id="regNumber"/>
+                            <column id="orderNumber"/>
+                            <column id="clients"/>
+                            <column id="planningDate"/>
+                            <column id="tsNumber"/>
+                            <column id="loadCapacity"/>
+                            <column id="fio"/>
+                            <column id="phoneNumber"/>
+                            <column id="planinStatus"/>
+                            <column id="planinState"/>
+                        </columns>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPanel2"
+                                      alwaysVisible="true">
+                            <button id="createBtn2" action="planinsTable.create"/>
+                            <button id="editBtn2" action="planinsTable.edit"/>
+                            <button id="removeBtn2" action="planinsTable.remove"/>
+                            <button id="downloadCompetedBtn" invoke="downloadCompeted" caption="Загрузка Завершена"/>
+                        </buttonsPanel>
+                    </groupTable>
                 </vbox>
             </tab>
         </tabSheet>

@@ -13,6 +13,7 @@
             <map>
                 <entry key="storage_ClientService" value="com.company.storage.service.ClientService"/>
                 <entry key="storage_GateService" value="com.company.storage.service.GateService"/>
+                <entry key="storage_PlaninService" value="com.company.storage.service.PlaninService"/>
             </map>
         </property>
     </bean>

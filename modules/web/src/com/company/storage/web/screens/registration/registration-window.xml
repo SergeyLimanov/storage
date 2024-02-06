@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://registrationWindow.caption"
+        messagesPack="com.company.storage.web.screens.registration">
+    <dialogMode height="AUTO"
+                width="500px"
+                forceDialog="true"
+                closeable="true"
+                modal="true"/>
+    <layout spacing="true" width="100%">
+        <maskedField id="tsNumberField" mask="U***UU" caption="vehicleNumber"/>
+        <textField id="fullNameField" caption="ФИО"/>
+        <maskedField id="phoneNumberField"
+                     caption="phoneNumber"
+                     mask="+7(***) *******"/>
+        <lookupField id="loadCapacityLookupField" caption="Capacity"
+                     optionsEnum="com.company.storage.entity.planin.LoadCapacity"/>
+        <buttonsPanel>
+            <button id="confirmButton"
+                    caption="confirm"
+                    invoke="confirmRegistration"
+            />
+        </buttonsPanel>
+    </layout>
+</window>
