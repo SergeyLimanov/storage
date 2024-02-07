@@ -29,7 +29,7 @@ create table STORAGE_CLIENT (
     --
     CLIENT_CODE integer,
     DESCRIPTION_NAME varchar(200),
-    ADDRESS varchar(200),
+    CLIENT_ADDRESS varchar(200),
     CONTACT_PERSON varchar(100),
     --
     primary key (ID)
@@ -71,3 +71,22 @@ create table STORAGE_PLANIN_CLIENT_LINK (
     primary key (PLANIN_ID, CLIENT_ID)
 )^
 -- end STORAGE_PLANIN_CLIENT_LINK
+-- begin STORAGE_LOG_PLANIN_ENTITY
+create table STORAGE_LOG_PLANIN_ENTITY (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    REG_NUMBER varchar(255),
+    LOG_STATUS integer,
+    LOG_STATE integer,
+    TS_NUMBER varchar(255),
+    --
+    primary key (ID)
+)^
+-- end STORAGE_LOG_PLANIN_ENTITY

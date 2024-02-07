@@ -1,6 +1,8 @@
 package com.company.storage.web.screens.gate;
 
 import com.company.storage.service.GateService;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.EntityStates;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.HasValue;
 import com.haulmont.cuba.gui.components.TextField;
@@ -17,15 +19,17 @@ public class GateEdit extends StandardEditor<Gate> {
     @Inject
     private GateService gateService;
     @Inject
-    private TextField<String> gateNumberField;
-    @Inject
     private Notifications notifications;
 
-    @Subscribe("gateNumberField")
-    public void onGateNumberFieldValueChange(HasValue.ValueChangeEvent<String> event) {
-        if (!gateService.isExistNumber(event.getValue())) {
-            notifications.create().withCaption("Поставщик под данным номером уже зарегистрирован, укажите другой").show();
-            gateNumberField.clear();
+    @Subscribe
+    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        Gate gate =  getEditedEntity();
+        if (gate.getGateNumber() != null && gateService.existGateByNumber(gate.getGateNumber(), gate.getId())) {
+            notifications.create()
+                    .withCaption("Введенный Вами номер уже используется. Введите другой.")
+                    .withHideDelayMs(2000)
+                    .show();
+           event.preventCommit();
         }
     }
 }

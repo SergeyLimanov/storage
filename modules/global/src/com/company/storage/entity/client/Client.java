@@ -19,8 +19,8 @@ public class Client extends StandardEntity {
     @Column(name = "DESCRIPTION_NAME", length = 200)
     private String descriptionName;
 
-    @Column(name = "ADDRESS", length = 200)
-    private String address;
+    @Column(name = "CLIENT_ADDRESS", length = 200)
+    private String clientAddress;
 
     @Column(name = "CONTACT_PERSON", length = 100)
     private String contactPerson;
@@ -33,12 +33,12 @@ public class Client extends StandardEntity {
         this.contactPerson = contactPerson;
     }
 
-    public String getAddress() {
-        return address;
+    public String getClientAddress() {
+        return clientAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
     }
 
     public String getDescriptionName() {

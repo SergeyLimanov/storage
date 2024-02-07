@@ -4,21 +4,19 @@ import com.company.storage.entity.gate.Gate;
 import com.company.storage.entity.planin.Planin;
 import com.company.storage.entity.planin.PlaninState;
 import com.company.storage.entity.planin.PlaninStatus;
+import com.company.storage.service.PlaninService;
 import com.company.storage.web.screens.gate.GateBrowse;
 import com.company.storage.web.screens.registration.RegistrationWindow;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.ScreenBuilders;
-import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.Label;
 import com.haulmont.cuba.gui.components.TabSheet;
 import com.haulmont.cuba.gui.components.Timer;
-import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
-import com.haulmont.cuba.gui.model.DataContext;
 import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
@@ -27,8 +25,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @UiController("storage_Planin.browse")
 @UiDescriptor("planin-browse.xml")
@@ -44,10 +40,6 @@ public class PlaninBrowse extends StandardLookup<Planin> {
     @Inject
     private TabSheet tabSheet;
     @Inject
-    private CollectionContainer<Planin> planinsDc2;
-    @Inject
-    private CollectionContainer<Planin> planinsDc;
-    @Inject
     private DataManager dataManager;
     @Inject
     private GroupTable<Planin> planinsTable;
@@ -56,13 +48,11 @@ public class PlaninBrowse extends StandardLookup<Planin> {
     @Inject
     private Notifications notifications;
     @Inject
-    private Screens screens;
-    @Inject
-    protected DataContext dataContext;
-    @Inject
     private ScreenBuilders screenBuilders;
     @Inject
     private UiComponents uiComponents;
+    @Inject
+    private PlaninService planinService;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -143,16 +133,12 @@ public class PlaninBrowse extends StandardLookup<Planin> {
             return;
         }
         if (PlaninStatus.REGISTERED.equals(selected.getPlaninStatus())) {
-            List<String> gateNumbers = dataManager.load(Planin.class).view("planin-view").list().stream().map(Planin::getGate).filter(Objects::nonNull).collect(Collectors.toList());
+            List<String> gateNumbers = planinService.getPlaninNumbers();
             MapScreenOptions map = new MapScreenOptions(ParamsMap.of("selected", gateNumbers));
             GateBrowse build = (GateBrowse) screenBuilders.lookup(Gate.class, this)
                     .withSelectHandler(handler -> {
                         Gate gate = handler.stream().findFirst().get();
-                        selected.setGate(gate.getGateNumber());
-                        selected.setPlaninStatus(PlaninStatus.AT_GATE);
-                        selected.setPlaninState(PlaninState.GATE_ASSIGNED);
-                        selected.setDateInstallationGate(LocalDateTime.now());
-                        dataManager.commit(selected);
+                        updateSelected(selected, gate);
                         loadPlanning();
                         loadAtGate();
                     })
@@ -160,6 +146,14 @@ public class PlaninBrowse extends StandardLookup<Planin> {
                     .build();
             build.show();
         }
+    }
+
+    private void updateSelected(Planin selected, Gate gate) {
+        selected.setGate(gate.getGateNumber());
+        selected.setPlaninStatus(PlaninStatus.AT_GATE);
+        selected.setPlaninState(PlaninState.GATE_ASSIGNED);
+        selected.setDateInstallationGate(LocalDateTime.now());
+        dataManager.commit(selected);
     }
 
     public void downloadCompeted() {

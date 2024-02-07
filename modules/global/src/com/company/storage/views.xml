@@ -5,7 +5,7 @@
         <property name="clients" view="_minimal">
             <property name="clientCode"/>
             <property name="descriptionName"/>
-            <property name="address"/>
+            <property name="clientAddress"/>
             <property name="contactPerson"/>
         </property>
     </view>

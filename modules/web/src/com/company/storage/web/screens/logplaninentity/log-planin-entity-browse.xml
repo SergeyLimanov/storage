@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://logPlaninEntityBrowse.caption"
+        focusComponent="logPlaninEntitiesTable"
+        messagesPack="com.company.storage.web.screens.logplaninentity">
+    <data readOnly="true">
+        <collection id="logPlaninEntitiesDc"
+                    class="com.company.storage.entity.planin.LogPlaninEntity">
+            <view extends="_local"/>
+            <loader id="logPlaninEntitiesDl">
+                <query>
+                    <![CDATA[select e from storage_LogPlaninEntity e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="logPlaninEntitiesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="logPlaninEntitiesTable"
+                dataLoader="logPlaninEntitiesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="logPlaninEntitiesTable"
+                    width="100%"
+                    dataContainer="logPlaninEntitiesDc">
+            <columns>
+                <column id="regNumber"/>
+                <column id="logStatus"/>
+                <column id="logState"/>
+                <column id="tsNumber"/>
+            </columns>
+            <rowsCount/>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://planinManegeBrowse.caption"
+        focusComponent="planinsTable"
+        messagesPack="com.company.storage.web.screens.planin">
+    <data readOnly="true">
+        <collection id="planinsDc"
+                    class="com.company.storage.entity.planin.Planin">
+            <view extends="_local">
+                <property name="clients" view="_minimal">
+                    <property name="descriptionName"/>
+                    <property name="clientAddress"/>
+                    <property name="contactPerson"/>
+                </property>
+            </view>
+            <loader id="planinsDl">
+                <query>
+                    <![CDATA[select e from storage_Planin e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="planinsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="planinsTable"
+                dataLoader="planinsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="planinsTable"
+                    width="100%"
+                    dataContainer="planinsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="regNumber"/>
+                <column id="gate"/>
+                <column id="regDate"/>
+                <column id="dateInstallationGate"/>
+                <column id="dateLeaveAllowed"/>
+                <column id="leaveDate"/>
+                <column id="orderNumber"/>
+                <column id="planningDate"/>
+                <column id="tsNumber"/>
+                <column id="loadCapacity"/>
+                <column id="fio"/>
+                <column id="phoneNumber"/>
+                <column id="planinStatus"/>
+                <column id="planinState"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="planinsTable.create"/>
+                <button id="editBtn" action="planinsTable.edit"/>
+                <button id="removeBtn" action="planinsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

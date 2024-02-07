@@ -1,12 +1,9 @@
 package com.company.storage.web.screens.client;
 
-import com.company.storage.service.ClientService;
-import com.haulmont.cuba.core.global.Messages;
-import com.haulmont.cuba.gui.Notifications;
-import com.haulmont.cuba.gui.components.HasValue;
-import com.haulmont.cuba.gui.components.TextField;
-import com.haulmont.cuba.gui.screen.*;
 import com.company.storage.entity.client.Client;
+import com.company.storage.service.ClientService;
+import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.screen.*;
 
 import javax.inject.Inject;
 
@@ -19,16 +16,16 @@ public class ClientEdit extends StandardEditor<Client> {
     private ClientService clientService;
     @Inject
     private Notifications notifications;
-    @Inject
-    private TextField<Integer> clientCodeField;
 
-    @Subscribe("clientCodeField")
-    public void onClientCodeFieldValueChange(HasValue.ValueChangeEvent<Integer> event) {
-        if (!clientService.isExistCode(event.getValue())) {
-            notifications.create().withCaption("Поставщик под данным номером уже зарегистрирован, укажите другой").show();
-            clientCodeField.clear();
+    @Subscribe
+    public void onBeforeCommitChanges(BeforeCommitChangesEvent event) {
+        Client client = getEditedEntity();
+        if (client.getClientCode() != null && clientService.existClientCode(client.getClientCode(), client.getId())) {
+            notifications.create()
+                    .withCaption("Введенный Вами код уже используется. Введите другой.")
+                    .withHideDelayMs(2000)
+                    .show();
+            event.preventCommit();
         }
     }
-
-
 }

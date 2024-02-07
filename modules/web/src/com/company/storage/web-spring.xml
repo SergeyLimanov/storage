@@ -14,6 +14,8 @@
                 <entry key="storage_ClientService" value="com.company.storage.service.ClientService"/>
                 <entry key="storage_GateService" value="com.company.storage.service.GateService"/>
                 <entry key="storage_PlaninService" value="com.company.storage.service.PlaninService"/>
+                <entry key="storage_ScheduledServiceService"
+                       value="com.company.storage.service.PlaninScheduledService"/>
             </map>
         </property>
     </bean>

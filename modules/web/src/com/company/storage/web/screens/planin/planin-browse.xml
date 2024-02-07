@@ -63,13 +63,9 @@
                                 width="100%"
                                 dataContainer="planinsDc">
                         <actions>
-                            <action id="create" type="create"/>
-                            <action id="edit" type="edit"/>
-                            <action id="remove" type="remove"/>
                         </actions>
                         <columns>
                             <column id="regNumber"/>
-                            1
                             <column id="orderNumber"/>
                             <column id="tsNumber"/>
                             <column id="loadCapacity"/>
@@ -83,9 +79,6 @@
                         <rowsCount/>
                         <buttonsPanel id="buttonsPanel"
                                       alwaysVisible="true">
-                            <button id="createBtn" action="planinsTable.create"/>
-                            <button id="editBtn" action="planinsTable.edit"/>
-                            <button id="removeBtn" action="planinsTable.remove"/>
                             <button id="registredBtn" invoke="registered" caption="Зарегистрировано"/>
                             <button icon="assigneeGateBtn" invoke="assigneeGate" caption="Назначить ворота"/>
                         </buttonsPanel>
@@ -103,9 +96,6 @@
                                 width="100%"
                                 dataContainer="planinsDc2">
                         <actions>
-                            <action id="create" type="create"/>
-                            <action id="edit" type="edit"/>
-                            <action id="remove" type="remove"/>
                         </actions>
                         <columns>
                             <column id="gate"/>
@@ -123,9 +113,6 @@
                         <rowsCount/>
                         <buttonsPanel id="buttonsPanel2"
                                       alwaysVisible="true">
-                            <button id="createBtn2" action="planinsTable.create"/>
-                            <button id="editBtn2" action="planinsTable.edit"/>
-                            <button id="removeBtn2" action="planinsTable.remove"/>
                             <button id="downloadCompetedBtn" invoke="downloadCompeted" caption="Загрузка Завершена"/>
                         </buttonsPanel>
                     </groupTable>

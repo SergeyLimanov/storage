@@ -27,18 +27,14 @@ public class RegistrationWindow extends Screen {
 
     @Inject
     private MaskedField<String> tsNumberField;
-
     @Inject
     private TextField<String> fullNameField;
-
     @Inject
     private MaskedField<String> phoneNumberField;
     @Inject
     private LookupField<LoadCapacity> loadCapacityLookupField;
-
     @Inject
     private PlaninService planinService;
-
 
     public void confirmRegistration() {
         PlaninDto planinDto= new PlaninDto();
@@ -47,9 +43,6 @@ public class RegistrationWindow extends Screen {
         planinDto.setLoadCapacityId(loadCapacityLookupField.getValue() != null && loadCapacityLookupField.getValue().getId() != null? loadCapacityLookupField.getValue().getId() : null);
         planinDto.setTsNumber(tsNumberField.getValue() != null ? tsNumberField.getValue() : "");
         planinService.createNewPlanin(planinDto);
-        getWindow().close("close");
-
+        closeWithDefaultAction();
     }
-
-
 }

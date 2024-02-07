@@ -2,11 +2,13 @@ package com.company.storage.entity.planin;
 
 import com.company.storage.entity.client.Client;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@PublishEntityChangedEvents
 @Table(name = "STORAGE_PLANIN")
 @Entity(name = "storage_Planin")
 public class Planin extends StandardEntity {

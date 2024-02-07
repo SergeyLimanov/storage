@@ -17,7 +17,7 @@
             <column width="350px">
                 <textField id="clientCodeField" property="clientCode"/>
                 <textField id="descriptionNameField" property="descriptionName"/>
-                <textField id="addressField" property="address"/>
+                <textField id="addressField" property="clientAddress"/>
                 <textField id="contactPersonField" property="contactPerson"/>
             </column>
         </form>
